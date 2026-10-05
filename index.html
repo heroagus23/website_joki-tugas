@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Nero | Jasa Akademik & Joki Tugas Premium</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Google Fonts: Inter & Space Grotesk -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#050507',
+                            gray: '#121217',
+                            primary: '#6366f1',
+                            secondary: '#a855f7',
+                            accent: '#38bdf8'
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base & Background */
+        body {
+            background-color: #050507;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black, transparent);
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(18, 18, 23, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        .glass-premium {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(168, 85, 247, 0.2);
+        }
+
+        /* 3D Text Logo */
+        .text-3d {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 
+                0px 1px 0px #cccccc,
+                0px 2px 0px #c0c0c0,
+                0px 3px 0px #b3b3b3,
+                0px 4px 0px #a6a6a6,
+                0px 5px 0px #999999,
+                0px 6px 4px rgba(0,0,0,0.6),
+                0px 10px 10px rgba(0,0,0,0.4),
+                0px 15px 20px rgba(99,102,241,0.4);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            10% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(99,102,241,0.5); }
+            50% { box-shadow: 0 0 30px rgba(168,85,247,0.8); }
+        }
+
+        .animate-pulse-glow {
+            animation: pulse-glow 3s infinite;
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050507;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+
+        /* Loading Screen */
+        #loader {
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-primary selection:text-white relative">
+
+    <!-- Loading Screen -->
+    <div id="loader" class="fixed inset-0 z-[100] bg-brand-dark flex flex-col items-center justify-center">
+        <div class="w-16 h-16 border-4 border-brand-primary/30 border-t-brand-primary rounded-full animate-spin mb-4"></div>
+        <h2 class="font-display text-2xl font-bold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">NERO</h2>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="fixed inset-0 z-[-1] bg-grid opacity-30 pointer-events-none"></div>
+    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-brand-secondary/20 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass border-b-0 py-4 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="font-display text-2xl font-bold tracking-wider text-white">NERO</div>
+            </div>
+            <div class="hidden md:flex gap-8 items-center text-sm font-medium text-gray-300">
+                <a href="#layanan" class="hover:text-brand-accent transition-colors">Layanan</a>
+                <a href="#keunggulan" class="hover:text-brand-accent transition-colors">Keunggulan</a>
+                <a href="#harga" class="hover:text-brand-accent transition-colors">Harga</a>
+                <a href="#kontak" class="hover:text-brand-accent transition-colors">Kontak</a>
+            </div>
+            <a href="https://wa.me/6285167572172?text=Halo%20Official%20Nero%20%F0%9F%91%8B%20Saya%20ingin%20memesan%20jasa%20akademik.%20Saya%20ingin%20bertanya%20mengenai%20layanan%2C%20harga%2C%20dan%20estimasi%20pengerjaan." 
+               target="_blank"
+               class="hidden md:inline-flex bg-white text-black px-5 py-2 rounded-full font-semibold text-sm hover:bg-gray-200 transition-all transform hover:scale-105">
+                Konsultasi Gratis
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="container mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 items-center z-10">
+            
+            <!-- Left Text Content -->
+            <div class="text-left mt-10 lg:mt-0 reveal active">
+                <div class="inline-block px-4 py-1.5 rounded-full border border-brand-primary/30 bg-brand-primary/10 text-brand-accent text-xs font-semibold tracking-widest mb-6">
+                    OFFICIAL NERO ACADEMIC SERVICE
+                </div>
+                
+                <h1 class="text-5xl lg:text-7xl font-display font-bold leading-tight mb-4">
+                    Joki Tugas & <br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent">Jasa Akademik</span>
+                </h1>
+                
+                <p class="text-lg text-gray-400 mb-8 max-w-lg leading-relaxed">
+                    Solusi terpercaya untuk kebutuhan akademik Anda. <br>
+                    Makalah • Jurnal • PPT • Laporan • Proposal • Editing & Desain
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="https://wa.me/6285167572172?text=Halo%20Official%20Nero..." target="_blank" 
+                       class="bg-gradient-to-r from-brand-primary to-brand-secondary text-white px-8 py-4 rounded-xl font-bold shadow-lg shadow-brand-primary/30 hover:shadow-brand-secondary/50 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+                        <i class="ph ph-whatsapp-logo text-xl"></i> PESAN SEKARANG
+                    </a>
+                    <a href="#harga" 
+                       class="glass text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+                        LIHAT HARGA
+                    </a>
+                </div>
+                
+                <!-- 3D Text Logo Addition -->
+                <div class="mt-16 text-center lg:text-left select-none">
+                    <div class="text-4xl text-3d mb-1">NERO</div>
+                    <div class="text-xs text-brand-accent font-semibold tracking-widest">OFFICIAL NERO</div>
+                    <div class="text-[10px] text-gray-500 tracking-[0.2em]">ACADEMIC SERVICE</div>
+                </div>
+            </div>
+
+            <!-- Right 3D Canvas -->
+            <div class="relative w-full h-[400px] lg:h-[600px] reveal active delay-200">
+                <canvas id="hero-3d" class="absolute inset-0 w-full h-full cursor-pointer"></canvas>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Layanan Section -->
+    <section id="layanan" class="py-24 relative z-10">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">Layanan Unggulan Kami</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Dikerjakan oleh tim profesional dengan hasil berkualitas tinggi dan garansi privasi 100%.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card 1 -->
+                <div class="glass p-8 rounded-2xl group cursor-pointer reveal relative overflow-hidden" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl bg-brand-primary/20 flex items-center justify-center text-brand-accent mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                            <i class="ph ph-books text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">📚 Joki Makalah</h3>
+                        <p class="text-brand-accent font-semibold mb-4">Mulai Rp25.000</p>
+                        <p class="text-sm text-gray-400 mb-6 line-clamp-2">Penyusunan makalah terstruktur, sesuai pedoman kampus, dan bebas plagiasi.</p>
+                        <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white text-black py-2.5 rounded-lg font-bold text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">Pesan Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="glass p-8 rounded-2xl group cursor-pointer reveal relative overflow-hidden" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-brand-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl bg-brand-secondary/20 flex items-center justify-center text-brand-secondary mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                            <i class="ph ph-book-open-text text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">📖 Jasa Jurnal</h3>
+                        <p class="text-brand-accent font-semibold mb-4">Mulai Rp75.000</p>
+                        <p class="text-sm text-gray-400 mb-6 line-clamp-2">Review, pembuatan, dan parafrase jurnal nasional maupun internasional.</p>
+                        <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white text-black py-2.5 rounded-lg font-bold text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">Pesan Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="glass p-8 rounded-2xl group cursor-pointer reveal relative overflow-hidden" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-400 mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                            <i class="ph ph-presentation-chart text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">🎨 Desain PPT</h3>
+                        <p class="text-brand-accent font-semibold mb-4">Mulai Rp15.000</p>
+                        <p class="text-sm text-gray-400 mb-6 line-clamp-2">Presentasi menarik, interaktif, dan profesional untuk sidang atau tugas.</p>
+                        <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white text-black py-2.5 rounded-lg font-bold text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">Pesan Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="glass p-8 rounded-2xl group cursor-pointer reveal relative overflow-hidden" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl bg-green-500/20 flex items-center justify-center text-green-400 mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                            <i class="ph ph-flask text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">📝 Laporan Praktikum</h3>
+                        <p class="text-brand-accent font-semibold mb-4">Mulai Rp25.000</p>
+                        <p class="text-sm text-gray-400 mb-6 line-clamp-2">Penyusunan data, landasan teori, hingga kesimpulan praktikum.</p>
+                        <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white text-black py-2.5 rounded-lg font-bold text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">Pesan Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="glass p-8 rounded-2xl group cursor-pointer reveal relative overflow-hidden" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl bg-yellow-500/20 flex items-center justify-center text-yellow-400 mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                            <i class="ph ph-article text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">📑 Proposal</h3>
+                        <p class="text-brand-accent font-semibold mb-4">Mulai Rp50.000</p>
+                        <p class="text-sm text-gray-400 mb-6 line-clamp-2">Proposal kegiatan, bisnis, hingga proposal penelitian akademik.</p>
+                        <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white text-black py-2.5 rounded-lg font-bold text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">Pesan Sekarang</a>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="glass p-8 rounded-2xl group cursor-pointer reveal relative overflow-hidden" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 mb-6 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
+                            <i class="ph ph-keyboard text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">💻 Pengetikan & Editing</h3>
+                        <p class="text-brand-accent font-semibold mb-4">Mulai Rp3.000/hal</p>
+                        <p class="text-sm text-gray-400 mb-6 line-clamp-2">Ketik ulang dokumen, rapikan margin, daftar isi, dan format daftar pustaka.</p>
+                        <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white text-black py-2.5 rounded-lg font-bold text-sm opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">Pesan Sekarang</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Keunggulan Section -->
+    <section id="keunggulan" class="py-24 bg-brand-gray/50 relative z-10">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-display font-bold mb-4">Kenapa Official Nero?</h2>
+                <p class="text-gray-400">Komitmen kami untuk memberikan pelayanan terbaik bagi mahasiswa.</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+                <!-- Feature 1 -->
+                <div class="glass p-6 rounded-2xl flex flex-col items-center text-center reveal" data-tilt data-tilt-max="10" data-tilt-speed="400">
+                    <div class="text-yellow-400 mb-4 bg-yellow-400/10 p-3 rounded-full"><i class="ph-fill ph-lightning text-3xl"></i></div>
+                    <h4 class="font-bold mb-2">⚡ Cepat</h4>
+                    <p class="text-xs text-gray-400">Selesai tepat waktu sebelum deadline</p>
+                </div>
+                <!-- Feature 2 -->
+                <div class="glass p-6 rounded-2xl flex flex-col items-center text-center reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" style="transition-delay: 100ms;">
+                    <div class="text-green-400 mb-4 bg-green-400/10 p-3 rounded-full"><i class="ph-fill ph-wallet text-3xl"></i></div>
+                    <h4 class="font-bold mb-2">💰 Harga Mahasiswa</h4>
+                    <p class="text-xs text-gray-400">Tarif ramah di kantong pelajar</p>
+                </div>
+                <!-- Feature 3 -->
+                <div class="glass p-6 rounded-2xl flex flex-col items-center text-center reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" style="transition-delay: 200ms;">
+                    <div class="text-pink-400 mb-4 bg-pink-400/10 p-3 rounded-full"><i class="ph-fill ph-palette text-3xl"></i></div>
+                    <h4 class="font-bold mb-2">🎨 Desain Profesional</h4>
+                    <p class="text-xs text-gray-400">Tampilan dokumen & PPT premium</p>
+                </div>
+                <!-- Feature 4 -->
+                <div class="glass p-6 rounded-2xl flex flex-col items-center text-center reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" style="transition-delay: 300ms;">
+                    <div class="text-red-400 mb-4 bg-red-400/10 p-3 rounded-full"><i class="ph-fill ph-shield-check text-3xl"></i></div>
+                    <h4 class="font-bold mb-2">🔒 Privasi Dokumen</h4>
+                    <p class="text-xs text-gray-400">Data dan identitas 100% aman</p>
+                </div>
+                <!-- Feature 5 -->
+                <div class="glass p-6 rounded-2xl flex flex-col items-center text-center reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" style="transition-delay: 400ms;">
+                    <div class="text-blue-400 mb-4 bg-blue-400/10 p-3 rounded-full"><i class="ph-fill ph-chat-circle-dots text-3xl"></i></div>
+                    <h4 class="font-bold mb-2">💬 Konsultasi Mudah</h4>
+                    <p class="text-xs text-gray-400">Admin fast response 24/7 via WA</p>
+                </div>
+                <!-- Feature 6 -->
+                <div class="glass p-6 rounded-2xl flex flex-col items-center text-center reveal" data-tilt data-tilt-max="10" data-tilt-speed="400" style="transition-delay: 500ms;">
+                    <div class="text-brand-secondary mb-4 bg-brand-secondary/10 p-3 rounded-full"><i class="ph-fill ph-arrows-clockwise text-3xl"></i></div>
+                    <h4 class="font-bold mb-2">🔄 Revisi Sesuai</h4>
+                    <p class="text-xs text-gray-400">Garansi revisi jika ada kesalahan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="harga" class="py-24 relative z-10">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-display font-bold mb-4">Pilihan Paket Transparan</h2>
+                <p class="text-gray-400">Pilih paket sesuai tingkat kesulitan dan kebutuhan tugas Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
+                
+                <!-- Starter -->
+                <div class="glass p-8 rounded-3xl reveal" data-tilt data-tilt-max="5" data-tilt-speed="400">
+                    <h3 class="text-2xl font-bold mb-2">STARTER</h3>
+                    <p class="text-gray-400 text-sm mb-6">Untuk tugas sederhana & basic.</p>
+                    <div class="text-3xl font-display font-bold mb-8">Mulai 15k<span class="text-sm font-normal text-gray-500">/tugas</span></div>
+                    <ul class="space-y-4 mb-8 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-400"></i> Ketik Ulang</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-400"></i> Desain PPT Basic</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-400"></i> Rapikan Format</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-green-400"></i> Pengerjaan Reguler</li>
+                    </ul>
+                    <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3 rounded-xl font-bold transition-all">Pilih Starter</a>
+                </div>
+
+                <!-- PRO (Paling Laris) -->
+                <div class="glass-premium p-10 rounded-3xl reveal relative transform lg:-translate-y-4 animate-pulse-glow" data-tilt data-tilt-max="5" data-tilt-speed="400">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">
+                        PALING LARIS
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-accent">PRO</h3>
+                    <p class="text-gray-300 text-sm mb-6">Untuk tugas akademik lengkap.</p>
+                    <div class="text-4xl font-display font-bold mb-8">Mulai 50k<span class="text-sm font-normal text-gray-500">/tugas</span></div>
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-primary"></i> Pembuatan Makalah</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-primary"></i> Review Jurnal Basic</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-primary"></i> PPT Animasi Menarik</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-primary"></i> Prioritas Pengerjaan</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-primary"></i> Gratis Konsultasi</li>
+                    </ul>
+                    <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-gradient-to-r from-brand-primary to-brand-secondary text-white py-4 rounded-xl font-bold shadow-lg transform hover:scale-105 transition-all">Pilih Pro</a>
+                </div>
+
+                <!-- Premium -->
+                <div class="glass p-8 rounded-3xl reveal" data-tilt data-tilt-max="5" data-tilt-speed="400">
+                    <h3 class="text-2xl font-bold mb-2">PREMIUM</h3>
+                    <p class="text-gray-400 text-sm mb-6">Kebutuhan dokumen kompleks.</p>
+                    <div class="text-3xl font-display font-bold mb-8">Mulai 100k<span class="text-sm font-normal text-gray-500">/tugas</span></div>
+                    <ul class="space-y-4 mb-8 text-sm text-gray-300">
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-secondary"></i> Proposal Lengkap</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-secondary"></i> Jurnal Internasional</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-secondary"></i> Olah Data Lengkap</li>
+                        <li class="flex items-center gap-2"><i class="ph-fill ph-check-circle text-brand-secondary"></i> VIP Support 24/7</li>
+                    </ul>
+                    <a href="https://wa.me/6285167572172" target="_blank" class="block text-center w-full bg-white/10 hover:bg-white/20 border border-white/20 text-white py-3 rounded-xl font-bold transition-all">Pilih Premium</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- TikTok Section -->
+    <section class="py-16 relative z-10 border-t border-white/10">
+        <div class="container mx-auto px-6 text-center reveal">
+            <div class="glass max-w-2xl mx-auto p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 border-brand-primary/20 bg-gradient-to-r from-brand-gray to-brand-dark">
+                <div class="text-left flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-black border border-white/20 flex items-center justify-center">
+                        <i class="ph-fill ph-tiktok-logo text-3xl text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold">FOLLOW OFFICIAL NERO</h3>
+                        <p class="text-brand-accent font-medium">@officialnero22</p>
+                    </div>
+                </div>
+                <a href="https://www.tiktok.com/@officialnero22" target="_blank" class="bg-white text-black px-6 py-3 rounded-full font-bold hover:bg-gray-200 transition-all flex items-center gap-2 transform hover:scale-105">
+                    FOLLOW DI TIKTOK
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8 border-t border-white/5 relative z-10 text-center text-sm text-gray-500">
+        <div class="container mx-auto px-6">
+            <div class="font-display font-bold text-xl text-white mb-2">OFFICIAL NERO</div>
+            <p>Joki Tugas & Jasa Akademik Terpercaya</p>
+            <p class="mt-4">&copy; 2026 Official Nero. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="https://wa.me/6285167572172?text=Halo%20Official%20Nero%20%F0%9F%91%8B%20Saya%20ingin%20memesan%20jasa%20akademik.%20Saya%20ingin%20bertanya%20mengenai%20layanan%2C%20harga%2C%20dan%20estimasi%20pengerjaan." 
+       target="_blank" 
+       class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#1ebe57] transition-all transform hover:scale-110 flex items-center justify-center animate-bounce"
+       style="animation: float 3s ease-in-out infinite;">
+        <i class="ph-fill ph-whatsapp-logo text-3xl"></i>
+        <!-- Ping effect -->
+        <span class="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-30 animate-ping"></span>
+    </a>
+
+    <!-- Scripts -->
+    <!-- Three.js for 3D Hero -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Vanilla Tilt for 3D Cards -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <script>
+        // 1. Loading Screen & Reveal Logic
+        window.addEventListener('load', () => {
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.visibility = 'hidden';
+            }, 500);
+
+            // Init 3D Scene after load
+            init3DScene();
+            
+            // Trigger reveals for elements already in view
+            handleScroll();
+        });
+
+        // Navbar blur on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-brand-dark/80');
+                nav.classList.remove('py-4');
+                nav.classList.add('py-2');
+            } else {
+                nav.classList.remove('bg-brand-dark/80');
+                nav.classList.add('py-4');
+                nav.classList.remove('py-2');
+            }
+        });
+
+        // Intersection Observer for scroll animations (Slide up / Fade in)
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, revealOptions);
+
+        reveals.forEach(reveal => {
+            revealOnScroll.observe(reveal);
+        });
+
+        function handleScroll() {
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 50;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add("active");
+                }
+            });
+        }
+        window.addEventListener("scroll", handleScroll);
+
+        // 2. Three.js 3D Academic Scene Setup
+        function init3DScene() {
+            // Check for reduced motion
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if(prefersReducedMotion) return;
+
+            const canvas = document.getElementById('hero-3d');
+            const container = canvas.parentElement;
+
+            const scene = new THREE.Scene();
+            
+            // Camera
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+            camera.position.z = 15;
+            camera.position.y = 2;
+
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // optimize performance
+            renderer.shadowMap.enabled = true;
+
+            // Lighting to create depth
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0x6366f1, 2);
+            dirLight.position.set(5, 10, 5);
+            dirLight.castShadow = true;
+            scene.add(dirLight);
+            
+            const pointLight = new THREE.PointLight(0xa855f7, 2, 20);
+            pointLight.position.set(-5, 5, 2);
+            scene.add(pointLight);
+
+            // Group to hold all objects for unified rotation
+            const group = new THREE.Group();
+            scene.add(group);
+
+            // Materials
+            const premiumMaterial = new THREE.MeshPhysicalMaterial({
+                color: 0x1e1e24,
+                metalness: 0.8,
+                roughness: 0.2,
+                clearcoat: 0.5,
+            });
+            const screenMaterial = new THREE.MeshStandardMaterial({
+                color: 0x000000,
+                emissive: 0x6366f1,
+                emissiveIntensity: 0.2
+            });
+            const paperMaterial = new THREE.MeshStandardMaterial({
+                color: 0xffffff,
+                roughness: 0.1,
+                metalness: 0.1,
+                side: THREE.DoubleSide
+            });
+
+            // --- Object 1: 3D Laptop ---
+            const laptopGroup = new THREE.Group();
+            // Base
+            const baseGeo = new THREE.BoxGeometry(4, 0.2, 3);
+            const base = new THREE.Mesh(baseGeo, premiumMaterial);
+            base.position.y = -0.1;
+            laptopGroup.add(base);
+            // Screen
+            const screenGeo = new THREE.BoxGeometry(4, 2.5, 0.1);
+            const screen = new THREE.Mesh(screenGeo, premiumMaterial);
+            screen.position.set(0, 1.25, -1.45);
+            screen.rotation.x = -0.1; // tilted back slightly
+            laptopGroup.add(screen);
+            // Inner Screen Glow
+            const innerScreenGeo = new THREE.PlaneGeometry(3.6, 2.1);
+            const innerScreen = new THREE.Mesh(innerScreenGeo, screenMaterial);
+            innerScreen.position.set(0, 1.25, -1.39);
+            innerScreen.rotation.x = -0.1;
+            laptopGroup.add(innerScreen);
+
+            laptopGroup.rotation.y = -Math.PI / 6;
+            group.add(laptopGroup);
+
+            // --- Object 2: Floating Documents ---
+            const docsGroup = new THREE.Group();
+            for(let i=0; i<3; i++) {
+                const doc = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 2), paperMaterial);
+                doc.position.set(
+                    (Math.random() - 0.5) * 4,
+                    Math.random() * 3,
+                    (Math.random() - 0.5) * 4 + 2
+                );
+                doc.rotation.set(
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI
+                );
+                
+                // Add some "lines" to paper
+                const lineGeo = new THREE.PlaneGeometry(1.2, 0.05);
+                const lineMat = new THREE.MeshBasicMaterial({color: 0xcccccc});
+                for(let j=0; j<4; j++) {
+                    const line = new THREE.Mesh(lineGeo, lineMat);
+                    line.position.set(0, 0.6 - (j*0.3), 0.01);
+                    doc.add(line);
+                }
+                
+                docsGroup.add(doc);
+            }
+            group.add(docsGroup);
+
+            // --- Object 3: Orbiting Icons (Represented by Primitives) ---
+            const iconsGroup = new THREE.Group();
+            const colors = [0xef4444, 0x3b82f6, 0xf97316]; // Red(PDF), Blue(Word), Orange(PPT)
+            const geometries = [
+                new THREE.IcosahedronGeometry(0.4, 0), // PDF
+                new THREE.BoxGeometry(0.6, 0.6, 0.6),  // Word
+                new THREE.OctahedronGeometry(0.4, 0)   // PPT
+            ];
+            
+            const orbitingMeshes = [];
+            for(let i=0; i<3; i++) {
+                const mat = new THREE.MeshPhysicalMaterial({
+                    color: colors[i],
+                    metalness: 0.5,
+                    roughness: 0.2,
+                    clearcoat: 1.0,
+                    emissive: colors[i],
+                    emissiveIntensity: 0.4
+                });
+                const mesh = new THREE.Mesh(geometries[i], mat);
+                // Position them in a circle
+                const angle = (i / 3) * Math.PI * 2;
+                const radius = 3.5;
+                mesh.position.x = Math.cos(angle) * radius;
+                mesh.position.z = Math.sin(angle) * radius;
+                mesh.position.y = 1;
+                
+                orbitingMeshes.push({mesh: mesh, angle: angle, radius: radius, speed: 0.01 + (i*0.005)});
+                iconsGroup.add(mesh);
+            }
+            group.add(iconsGroup);
+
+            // --- Object 4: Particles Background ---
+            const particlesGeo = new THREE.BufferGeometry();
+            const particlesCount = 100;
+            const posArray = new Float32Array(particlesCount * 3);
+            for(let i = 0; i < particlesCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 20; // Spread across scene
+            }
+            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMat = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0x38bdf8,
+                transparent: true,
+                opacity: 0.8
+            });
+            const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
+            scene.add(particlesMesh);
+
+            // Mouse Parallax Interaction
+            let mouseX = 0;
+            let mouseY = 0;
+            let targetX = 0;
+            let targetY = 0;
+            
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX - windowHalfX);
+                mouseY = (event.clientY - windowHalfY);
+            });
+
+            // Animation Loop
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                const time = clock.getElapsedTime();
+
+                // Slow rotation of entire group
+                group.rotation.y = Math.sin(time * 0.2) * 0.2;
+                group.rotation.x = Math.cos(time * 0.2) * 0.1;
+                
+                // Floating effect for laptop
+                laptopGroup.position.y = Math.sin(time) * 0.2;
+
+                // Animate floating documents
+                docsGroup.children.forEach((doc, i) => {
+                    doc.rotation.x += 0.005 * (i+1);
+                    doc.rotation.y += 0.01 * (i+1);
+                    doc.position.y += Math.sin(time * 2 + i) * 0.005;
+                });
+
+                // Orbiting icons
+                orbitingMeshes.forEach((item, i) => {
+                    item.angle += item.speed;
+                    item.mesh.position.x = Math.cos(item.angle) * item.radius;
+                    item.mesh.position.z = Math.sin(item.angle) * item.radius;
+                    item.mesh.rotation.x += 0.02;
+                    item.mesh.rotation.y += 0.02;
+                    // bobbing
+                    item.mesh.position.y = 1 + Math.sin(time * 2 + i) * 0.5;
+                });
+                
+                // Particles slow rotation
+                particlesMesh.rotation.y = time * 0.05;
+
+                // Parallax Camera movement based on mouse
+                targetX = mouseX * 0.001;
+                targetY = mouseY * 0.001;
+                
+                camera.position.x += (targetX - camera.position.x) * 0.05;
+                camera.position.y += (-targetY - camera.position.y + 2) * 0.05; // base Y is 2
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+
+            animate();
+        }
+    </script>
+</body>
+</html>
